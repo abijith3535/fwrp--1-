@@ -1,0 +1,138 @@
+<nav class="pcoded-navbar">
+    <div class="nav-list">
+        <div class="pcoded-inner-navbar main-menu">
+           
+            <ul class="pcoded-item pcoded-left-item">
+                
+                <li class="<%=browserUrl == '/retailer/dashboard' ? 'active' : ''%>">
+                    <a href="<%= siteName %>/retailer/dashboard" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-menu"></i>
+                        </span>
+                        <span class="pcoded-mtext">Dashboard</span>
+                    </a>
+                </li>
+               
+            </ul>
+           
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="pcoded-hasmenu <%= ['/retailer/fooditems/add', '/retailer/fooditems', '/retailer/fooditems/surplus'].includes(browserUrl) ? 'active pcoded-trigger' : '' %>">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-layers"></i>
+                        </span>
+                        <span class="pcoded-mtext">Food Items</span>
+                       
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="<%= ['/retailer/fooditems/add'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/fooditems/add" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Add</span>
+                            </a>
+                        </li>
+                        <li class="<%= ['/retailer/fooditems'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/fooditems" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">List</span>
+                            </a>
+                        </li>
+                        <li class="<%= [ '/retailer/fooditems/surplus'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/fooditems/surplus" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Surplus list</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pcoded-hasmenu <%= browserUrl.startsWith('/retailer/purchases/') || ['/retailer/purchases', '/retailer/purchases/customers'].includes(browserUrl) ? 'active pcoded-trigger' : '' %>">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-gitlab"></i>
+                        </span>
+                        <span class="pcoded-mtext">Purchase</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="<%=browserUrl.startsWith('/retailer/purchases/') ||  [ '/retailer/purchases'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/purchases" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">List</span>
+                            </a>
+                        </li>
+
+
+                        </li>
+                        <li class="<%= [ '/retailer/purchases/customers'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/purchases/customers" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Customers</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pcoded-hasmenu <%= browserUrl.startsWith('/retailer/claims/') || ['/retailer/claims', '/retailer/organisations'].includes(browserUrl) ? 'active pcoded-trigger' : '' %>">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-package"></i>
+                        </span>
+                        <span class="pcoded-mtext">Claims</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="<%= browserUrl.startsWith('/retailer/claims/') || [ '/retailer/claims'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%=siteName %>/retailer/claims" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">List</span>
+                            </a>
+                        </li>
+                        <li class="<%= [ '/retailer/organisations'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/organisations" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Organizations</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </li>
+                <li class="<%= [ '/retailer/inventory-updates'].includes(browserUrl) ? 'active' : '' %>">
+                    <a href="<%= siteName %>/retailer/inventory-updates" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-aperture rotate-refresh"></i>
+                        </span>
+                        <span class="pcoded-mtext">Inventory</span>
+                    </a>
+                </li>
+                <li class="pcoded-hasmenu <%= ['/retailer/reports/purchases', '/retailer/reports/claims'].includes(browserUrl) ? 'active pcoded-trigger' : '' %>">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-package"></i>
+                        </span>
+                        <span class="pcoded-mtext">Reports</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="<%= [ '/retailer/reports/purchases'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/reports/purchases" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Purchases</span>
+                            </a>
+                        </li>
+                        <li class="<%= [ '/retailer/reports/claims'].includes(browserUrl) ? 'active' : '' %>">
+                            <a href="<%= siteName %>/retailer/reports/claims" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Claims</span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </li>
+                <li class="<%= [ '/retailer/profile'].includes(browserUrl) ? 'active' : '' %>"> 
+                    <a href="<%= siteName %>/retailer/profile" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-aperture rotate-refresh"></i>
+                        </span>
+                        <span class="pcoded-mtext">Profile</span>
+                    </a>
+                </li>
+                <li class=" ">
+                    <a href="<%= siteName %>/logout" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-aperture rotate-refresh"></i>
+                        </span>
+                        <span class="pcoded-mtext">Logout</span>
+                    </a>
+                </li>
+              
+            </ul>
+        </div>
+    </div>
+</nav>

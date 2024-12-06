@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <%- include('../partials/head') %>
+   <!-- Data Table Css -->
+   <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+   <link rel="stylesheet" type="text/css" href="/retailer/files/assets/pages/data-table/css/buttons.dataTables.min.css">
+   <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+</head>
+
+<body>
+     <!-- [ Pre-loader ] start -->
+     
+    <!-- [ Pre-loader ] end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            
+            <%- include('../partials/topnav') %>
+            
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <!-- [ navigation menu ] start -->
+                    <%- include('../partials/sidebar') %>
+                    <!-- [ navigation menu ] end -->
+                    <div class="pcoded-content">
+                        <div class="page-header card">
+                            <div class="row align-items-end">
+                                <div class="col-lg-8">
+                                    <div class="page-header-title">
+                                        <i class="feather icon-watch bg-c-blue"></i>
+                                        <div class="d-inline">
+                                            <h5>Claim</h5>
+                                            <span>Claim detail view</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <div class="page-body">
+                                        <!-- [ page content ] start -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Claim</h5>
+                                                        <div class="card-header-right">
+                                                            <ul class="list-unstyled card-option">
+                                                                <li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                                <li><i class="feather icon-maximize full-card"></i></li>
+                                                                <li><i class="feather icon-minus minimize-card"></i></li>
+                                                                <li><i class="feather icon-refresh-cw reload-card"></i></li>
+                                                                <li><i class="feather icon-trash close-card"></i></li>                                                                 <li><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block">
+                                                        <div class="col-sm-12 col-md-10 col-md-offset-1">
+                                                            <p class="mb-0 fw-bold text-lg-left">
+                                                                Deliver to: 
+                                                                <% if(addressData){%>
+                                                                    <i class="fa fa-map-marker text-warning mx-2"></i><span class="fw-normal"> <%=addressData.name%> </span><span><%=addressData.address1%> <%=addressData.address2%>, <%=addressData.city%>, <%=addressData.state%>, <%=addressData.postalcode%></span>
+                                                                    <% } %>
+                                                                </p>
+                                                                <hr/>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-10 col-md-offset-1">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                      <img src="<%= siteName %>/uploads/<%=claimData.image%>" alt="Product Image" class="img-fluid">
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                      <h2 class="product-title"><%=claimData.name%></h2>
+                                                                      <span>Status: </span>
+                                                                              <% if(parseInt(claimData.days_difference) <=7){ %>
+                                                                                <span class="text-warning"><strong><%= claimData.days_difference %> days to expire</strong></span> 
+                                                                                <% }else if(claimData.stock > claimData.quantity){ %>
+                                                                              <span class="text-warning"><strong>In Stock</strong></span>
+                                                                              <%} %>
+                                                                      <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary"><%= claimData.retailer %></span></div>
+                                                                        
+                                                                      <p class="product-description">
+                                                                        <%=claimData.description%>
+                                                                      </p>
+                                                                      <div class="d-flex align-items-center">
+                                                                        <input type="hidden" id="item_id" value="<%=claimData.item_id%>">
+                                                                        <input type="hidden" id="claim_id" value="<%=claimData.claim_id%>">
+                                                                        <label for="quantity" class="me-2 fw-bold">Quantity:</label>
+                                                                       
+                                                                        <input  readonly  type="number" id="quantity" class="form-control quantity-input" min="1" value="<%=claimData.quantity%>" style="width:100px">
+                                                                        <% if(claimData.status == 'pending' || claimData.status=='approved'){ %>
+                                                                            <select class="form-control p-10" id="status" style="width:200px;">
+                                                                             <% claimStatuses.forEach((s, index) => { %>
+                                                                             <%if(claimData.status == s){%>
+                                                                                     <option value="<%=s%>"  selected><%=s%></option>
+                                                                             <%}else{%>
+                                                                                 <option value="<%=s%>"><%=s%></option>
+                                                                            <% }%>
+                                                                             <% }) %>
+                                                                            </select>
+                                                                            <%} else{%>
+                                                                             <%if(claimData.status=='claimed'){ %>
+                                                                                 <span class="pcoded-badge label label-success">Claimed</span>
+                                                                             <%} else { %>
+                                                                                 <span class="pcoded-badge label label-danger">Cancelled</span>
+                                                                             <%} %>
+                                                                             <%} %>
+                                                                             <% if(claimData.status == 'pending' || claimData.status=='approved'){ %>
+                                                                                <button type="button" class="btn btn-success save-status">
+                                                                                Save Status <span class="fa fa-play"></span>
+                                                                                </button>
+                                                                                <%  } %>
+                                                                    </div>
+                                                                    <!-- <div class="row">
+                                                                        <div class="d-flex align-items-center">
+                                                                      <% if(claimData.status == 'pending' || claimData.status=='approved'){ %>
+                                                                        <select class="form-control" id="status" style="width:200px">
+                                                                         <% claimStatuses.forEach((s, index) => { %>
+                                                                         <%if(claimData.status == s){%>
+                                                                                 <option value="<%=s%>"  selected><%=s%></option>
+                                                                         <%}else{%>
+                                                                             <option value="<%=s%>"><%=s%></option>
+                                                                        <% }%>
+                                                                         <% }) %>
+                                                                        </select>
+                                                                        <%} else{%>
+                                                                         <%if(claimData.status=='claimed'){ %>
+                                                                             <span class="pcoded-badge label label-success">Claimed</span>
+                                                                         <%} else { %>
+                                                                             <span class="pcoded-badge label label-danger">Cancelled</span>
+                                                                         <%} %>
+                                                                         <%} %>
+                                                                         <% if(claimData.status == 'pending' || claimData.status=='approved'){ %>
+                                                                            <button type="button" class="btn btn-success save-status">
+                                                                            Save Status <span class="fa fa-play"></span>
+                                                                            </button>
+                                                                            <%  } %>
+                                                                        </div> 
+                                                                    </div> -->
+                                                                      
+                                                                    </div>
+                                                                  </div>
+                                                            
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- [ page content ] end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ style Customizer ] start -->
+                    <div id="styleSelector">
+                    </div>
+                    <!-- [ style Customizer ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/scripts') %>
+     <!-- data-table js -->
+<script src="/retailer/files/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/jszip.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/pdfmake.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/vfs_fonts.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+     <!-- Custom js -->
+     <script src="/retailer/files/assets/js/pcoded.min.js"></script>
+     <script src="/retailer/files/assets/js/vertical/vertical-layout.min.js"></script>
+
+     <script type="text/javascript" src="/retailer/files/assets/js/script.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+     <script>
+        $(document).ready(function () {
+            $('.save-status').on('click', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                
+                const jsonData = {
+                    claim_id: $('#claim_id').val(),
+                    status: $('#status').val()
+                };
+                console.log(jsonData);
+                $.ajax({
+                    url: '<%= siteName %>/retailer/claims/change_status', // Endpoint in your Express app
+                    type: 'POST',
+                    data: JSON.stringify(jsonData),  
+                    contentType: 'application/json',  
+                    success: function (response) {
+                        console.log(response);
+                       if(response.message =='success')
+                       alertify.success('Status Updated');
+                       
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alertify.error(error.message);
+						setTimeout(function(){ location.reload();}, 700);
+                        
+                    }
+                });
+            });
+        });
+  
+    </script>
+     
+</body>
+
+</html>

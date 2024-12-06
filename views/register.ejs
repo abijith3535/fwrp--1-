@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <%- include('partials/head') %>
+  <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/switchery/css/switchery.min.css">
+</head>
+
+<body themebg-pattern="theme1">
+
+    <section class="login-block">
+        <!-- Container-fluid starts -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Authentication card start -->
+                    <form class="md-float-material form-material" id="regform" enctype="multipart/form-data">
+                        <div class="text-center">
+                            <img src="/retailer/files/assets/images/logo.png" alt="logo.png">
+                        </div>
+                        <div class="auth-box card">
+                            <div class="card-block">
+                                <div class="row m-b-20">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center txt-primary">Sign up</h3>
+                                    </div>
+                                </div>
+                              
+                                <p class="text-muted text-center p-b-5">Sign up with your regular account</p>
+                               
+                                <div class="form-group form-primary">
+                                    <select name="usertype" class="form-control" id="usertype">
+                                        <option value="">Select user type</option>
+                                        <option value="retailer">Retailer</option>
+                                        <option value="consumer">Consumer</option>
+                                        <option value="charity">Charity Organization</option>
+                                    </select>
+                                    <span class="form-bar"></span>
+                                   
+                                </div>
+                               
+                                <div class="form-group form-primary">
+                                    <input type="text" name="name" class="form-control" id="name">
+                                    <span class="form-bar"></span>
+                                    <label class="form-label float-label">Choose Username</label>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="text" name="email" class="form-control" id="email">
+                                    <span class="form-bar"></span>
+                                    <label class="form-label float-label">Your Email Address</label>
+                                </div>
+                                <div class="form-group form-primary retailer" style="display: none;">Logo
+                                    <input type="file" name="logo" class="form-control" id="logo">
+                                    <span class="form-bar"></span>
+                                    <!-- <label class="form-label float-label">Logo</label> -->
+                                </div>
+                                <div class="row">
+                                   
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-primary">
+                                            <input type="password" name="password" class="form-control" id="password">
+                                            <span class="form-bar"></span>
+                                            <label class="form-label float-label">Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-primary">
+                                            <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                                            <span class="form-bar"></span>
+                                            <label class="form-label float-label">Confirm Password</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-t-25 text-start">
+                                    <div class="col-md-12 border-checkbox-section">
+                                      
+                                        <div class="border-checkbox-group border-checkbox-group-primary">
+                                            <input class="border-checkbox" type="checkbox" id="cond" name="cond">
+                                            <label class="form-label border-checkbox-label" for="cond">Terms &amp; Conditions</label>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-12 border-checkbox-section consumer" style="display: none;">
+                                      
+                                        <div class="border-checkbox-group border-checkbox-group-primary">
+                                            <input class="border-checkbox" type="checkbox" id="is_subscribed" name="is_subscribed">
+                                            <label class="form-label border-checkbox-label" for="is_subscribed">Send me the Notifications</label>
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary btn-md waves-effect text-center m-b-20" type="submit">Sign up now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <p class="text-inverse text-start">Already have an account?<a href="/login"> <b>Login here </b></a></p>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <p class="text-inverse text-start m-b-0">Thank you.</p>
+                                    
+                                    </div>
+                                    <div class="col-md-2">
+                                        <img src="/retailer/files/assets/images/auth/Logo-small-bottom.png" alt="small-logo.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Authentication card end -->
+                </div>
+                <!-- end of col-sm-12 -->
+            </div>
+            <!-- end of row -->
+        </div>
+        <!-- end of container-fluid -->
+    </section>
+
+    <%- include('partials/scripts') %>
+    
+    <script type="text/javascript" src="/retailer/files/bower_components/switchery/js/switchery.min.js"></script>
+    <!-- Chartlist charts -->
+
+    <script type="text/javascript" src="/retailer/files/assets/pages/advance-elements/swithces.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#usertype").change(function(){
+                var v = $(this).val();
+                if(v)
+                {
+                    if(v == "retailer")
+                    {
+                        $('.retailer').show();
+                        $('.consumer').hide();
+                    }
+                    else if(v == "consumer")
+                    {
+                        $('.consumer').show();
+                        $('.retailer').hide();
+                    }
+                    else
+                    {
+                        $('.consumer').show();
+                        $('.retailer').hide();
+                    }
+                }
+                else
+                {
+                    $('.retailer').hide();
+                }
+            })
+        })
+     </script>
+      <script>
+        $(document).ready(function () {
+            $('#regform').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                const formData = new FormData(this);
+                formData.append('cond',  $('#cond').is(':checked'));
+                formData.append('is_subscribed',  $('#is_subscribed').is(':checked'));
+                
+                
+                $.ajax({
+                    url: '<%= siteName %>/registration/submit', // Endpoint in your Express app
+                    type: 'POST',
+                    // contentType: 'application/json',
+                    data: formData,
+                    processData: false, // Required for FormData
+                    contentType: false, // Required for FormData
+                    success: function (response) {
+                       // var response = JSON.parse(response.responseText);
+                       alertify.success(response.message);
+                       $("#regform").trigger("reset");
+                    },
+                    error: function (error) {
+                        
+                        var errors_ = JSON.parse(error.responseText);
+                        console.log(errors_);
+                        $.each(errors_.errors, function(index, e) {
+                            alertify.error(e);
+                        });
+                    }
+                });
+            });
+        });
+  
+    </script>
+
+</body>
+
+</html>

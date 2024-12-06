@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+    <style>
+        body {
+          background-color: #f8f9fa;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .error-container {
+          text-align: center;
+          padding: 40px;
+          border: 1px solid #dee2e6;
+          border-radius: 8px;
+          background: #fff;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .error-code {
+          font-size: 72px;
+          font-weight: 700;
+          color: #dc3545;
+        }
+        .error-message {
+          font-size: 20px;
+          margin-bottom: 20px;
+          color: #6c757d;
+        }
+      </style>
+  </head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+      
+        
+        <div class="error-container">
+            <div class="error-code">404</div>
+            <div class="error-message">Oops! The page you are looking for cannot be found.</div>
+            <a href="<%= siteName %>/home" class="btn btn-primary">Go Back to Home</a>
+          </div>
+      
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      
+      <!-- ============================================-->
+     
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/customer/vendors/%40popperjs/popper.min.js"></script>
+<script src="/customer/vendors/bootstrap/bootstrap.min.js"></script>
+<script src="/customer/vendors/is/is.min.js"></script>
+<!-- <script src="../../../polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script> -->
+<script src="/customer/vendors/fontawesome/all.min.js"></script>
+<script src="/customer/assets/js/theme.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap" rel="stylesheet">
+
+    
+
+  </body>
+</html>

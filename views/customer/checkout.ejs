@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+  </head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <%- include('../partials/customer_menu') %>
+        <intput type="hidden" id="refreshPage" value="1"/>
+      <section id="testimonial">
+        <div class="container">
+          <div class="row h-100">
+            <div class="container py-3">
+                <h3>Confirm your order</h3>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                  
+                    <hr />
+                    <% 
+                  
+                    if (Array.isArray(userAddress) && userAddress.length > 0){ 
+                      
+                        %>
+                       
+                            <h5 class="lh-lg fw-bold text-black">Address</h5>
+                            <ul class="list-unstyled mb-md-4 mb-lg-0">
+                              <li class="lh-lg"><a class=" text-decoration-none" href="javascript:voide(0)"><%=userAddress[0].name%></a></li>
+                              <li class="lh-lg"><a class=" text-decoration-none" href="#!"><%=userAddress[0].address1%></a></li>
+                              <li class="lh-lg"><a class=" text-decoration-none" href="#!"><%=userAddress[0].address2%></a></li>
+                              <li class="lh-lg"><a class=" text-decoration-none" href="#!"><%=userAddress[0].city%></a></li>
+                              <li class="lh-lg"><a class=" text-decoration-none" href="#!"><%=userAddress[0].state%></a></li>
+                              <li class="lh-lg"><a class=" text-decoration-none" href="#!"><%=userAddress[0].country%></a></li>
+                              <li class="lh-lg"><a class=" text-decoration-none" href="#!"><%=userAddress[0].postalcode%></a></li>
+                            </ul>
+                         
+                     
+                   <% } %>
+                    
+                   
+                  </div>
+                 
+                  <div class="col-12 col-sm-12 col-md-8 col-lg-4">
+                    <div class="bg-light rounded-3 p-4 sticky-top">
+                      <h6 class="mb-4">Order Summary</h6>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>Subtotal</div>
+                        <div><strong>$ <%= subTotal.toFixed(2)  %></strong></div>
+                      </div>
+                      <hr />
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>Delivery Charge</div>
+                        <div><strong>$ <%=delievryCharge.toFixed(2)  %></strong></div>
+                      </div>
+                      <hr />
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>Total</div>
+                        <div><strong>$ <%=grandTotal.toFixed(2)  %></strong></div>
+                      </div>
+                      <button class="btn btn-primary w-100 mt-4 confirm-order" >Confirm Order</button>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+          </div>
+         
+        </div>
+      </section>
+
+      
+     
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <%- include('../partials/customer_scripts') %>
+    <script>
+        $(document).ready(function() {
+            $('.cart-btn').click(function(){
+              
+            manageCart($(this).attr('item'), 1, 'add');
+            })
+            $('.confirm-order').click(function(){
+              alertify.confirm( 'Are you sure?', function (e) {
+                  if (e) {
+                    $.ajax({
+                    url: '<%= siteName %>/consumer/confirm_checkout', 
+                    type: 'POST',
+                    data: '',
+                    success: function (response) {
+                       if(response.message == 'success')
+                       {
+                        alertify.success('Order placed successfully');
+                        setTimeout(function(){ window.location = response.url }, 700);
+                       }
+                       else{
+                        alertify.error('Something went wrong. Try again!');
+                       }
+                    },
+                    error: function (error) {
+                      alertify.error('Something went wrong!');
+                    }
+                });
+                  } 
+              }).set({title:"Confirm order"});;
+              
+
+            })
+         });
+    </script>
+  
+
+  </body>
+</html>

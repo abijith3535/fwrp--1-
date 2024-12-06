@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <%- include('../partials/head') %>
+   <!-- Data Table Css -->
+   <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+   <link rel="stylesheet" type="text/css" href="/retailer/files/assets/pages/data-table/css/buttons.dataTables.min.css">
+   <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+</head>
+
+<body>
+     <!-- [ Pre-loader ] start -->
+     
+    <!-- [ Pre-loader ] end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            
+            <%- include('../partials/topnav') %>
+            
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <!-- [ navigation menu ] start -->
+                    <%- include('../partials/sidebar') %>
+                    <!-- [ navigation menu ] end -->
+                    <div class="pcoded-content">
+                        <div class="page-header card">
+                            <div class="row align-items-end">
+                                <div class="col-lg-8">
+                                    <div class="page-header-title">
+                                        <i class="feather icon-watch bg-c-blue"></i>
+                                        <div class="d-inline">
+                                            <h5>Purchases</h5>
+                                            <span>Purchase list</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <div class="page-body">
+                                        <!-- [ page content ] start -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Purchases</h5>
+                                                        <div class="card-header-right">
+                                                            <ul class="list-unstyled card-option">
+                                                                <li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                                <li><i class="feather icon-maximize full-card"></i></li>
+                                                                <li><i class="feather icon-minus minimize-card"></i></li>
+                                                                <li><i class="feather icon-refresh-cw reload-card"></i></li>
+                                                                <li><i class="feather icon-trash close-card"></i></li>                                                                 <li><i class="fa fa-shopping open-card-option"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block">
+                                                        <div class="table-responsive dt-responsive">
+                                                            <table id="colum-rendr" class="table table-striped table-bordered nowrap">
+                                                              <thead>
+                                                                <tr>
+                                                                  <th>No</th>
+                                                                  <th>Id </th>
+                                                                  <th>User</th>
+                                                                  <th>Date</th>
+                                                                  <th>Total price</th>
+                                                                  <th>Status</th>
+                                                                  <th>Action</th>
+                                                                </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                <% if(purchases.length==0){ %>
+                                                                    <tr><td colspan="6">No purchases found</td></tr>
+                                                                <% }else { %>
+                                                                <% purchases.forEach((p, index) => { 
+                                                                    
+                                                                    %>
+                                                                    <tr>
+                                                                        <td> <%= index+1 %></td>
+                                                                        <td><%= p.order_unique %></td>
+                                                                        <td><%= p.name %></td>
+                                                                        <td><%= p.date %></td>
+                                                                        <td>$<%= p.price %></td>
+                                                                        <td>
+                                                                            <%if(p.status=='created'){%>
+                                                                                <span class="pcoded-badge label label-primary">Created</span>
+                                                                            <%} else if(p.status=='processing'){ %>
+                                                                                <span class="pcoded-badge label label-info">Processing</span>
+                                                                            <%} else if(p.status=='completed'){ %>
+                                                                                <span class="pcoded-badge label label-success">Completed</span>
+                                                                            <%} else { %>
+                                                                                <span class="pcoded-badge label label-danger">Cancelled</span>
+                                                                            <%} %>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="<%= siteName %>/retailer/purchases/<%=p.id%>" class="btn btn-success waves-effect waves-light "><i class="fa fa-eye"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% }); }%>
+                                                             </tbody>
+                                                              <tfoot>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Id </th>
+                                                                    <th>User</th>
+                                                                    <th>Date</th>
+                                                                    <th>Total price</th>
+                                                                    <th>Status</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                              </tfoot>
+                                                            </table>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- [ page content ] end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ style Customizer ] start -->
+                    <div id="styleSelector">
+                    </div>
+                    <!-- [ style Customizer ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/scripts') %>
+     <!-- data-table js -->
+<script src="/retailer/files/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/jszip.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/pdfmake.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/vfs_fonts.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+     <!-- Custom js -->
+     <script src="/retailer/files/assets/js/pcoded.min.js"></script>
+     <script src="/retailer/files/assets/js/vertical/vertical-layout.min.js"></script>
+
+     <script type="text/javascript" src="/retailer/files/assets/js/script.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+     <script>
+        document.querySelectorAll('.dateformat').forEach(function(el) {
+            const d = el.textContent; 
+            const formattedDate = moment(d).format('YYYY-MM-DD'); 
+            el.textContent = formattedDate; //
+        });
+    </script>
+     <script>
+        $(document).ready(function(){
+            $('#colum-rendr').DataTable({
+       
+    });
+        })
+     </script>
+     
+</body>
+
+</html>

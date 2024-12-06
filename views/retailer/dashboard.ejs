@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <%- include('../partials/head') %>
+  <link rel="stylesheet" href="/retailer/files/bower_components/chartist/css/chartist.css" type="text/css" media="all">
+</head>
+
+<body>
+     <!-- [ Pre-loader ] start -->
+     
+    <!-- [ Pre-loader ] end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            <!-- [ Header ] start -->
+            <%- include('../partials/topnav') %>
+            <!-- [ chat user list ] start -->
+            
+            <!-- [ chat user list ] end -->
+
+            <!-- [ chat message ] start -->
+            
+            <!-- [ chat message ] end -->
+
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <!-- [ navigation menu ] start -->
+                    <%- include('../partials/sidebar') %>
+                    <!-- [ navigation menu ] end -->
+                    <div class="pcoded-content">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header card">
+                            <div class="row align-items-end">
+                                <div class="col-lg-8">
+                                    <div class="page-header-title">
+                                        <i class="feather icon-home bg-c-blue"></i>
+                                        <div class="d-inline">
+                                            <h5>Dashboard</h5>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <div class="page-body">
+                                        <!-- [ page content ] start -->
+                                        <div class="row">
+
+                                            <!-- sale revenue card start -->
+                                            <div class="col-md-12 col-xl-8">
+                                                <div class="card sale-card">
+                                                    <div class="card-header">
+                                                        <h5>Sales in this year</h5>
+                                                    </div>
+                                                    <div class="card-block">
+                                                        <div id="chartdiv" style="width: 100%;height: 350px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-xl-4">
+                                                <div class="card comp-card">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <h6 class="m-b-25">Orders</h6>
+                                                                <h3 class="f-w-700 text-c-blue"><%=ocData%></h3>
+                                                                <p class="m-b-0"><%=currentMonth%></p>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <i class="fas fa-eye bg-c-blue"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card comp-card">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <h6 class="m-b-25">Claims</h6>
+                                                                <h3 class="f-w-700 text-c-green"><%=ccData%></h3>
+                                                                <p class="m-b-0"><%=currentMonth%></p>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <i class="fas fa-bullseye bg-c-green"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card comp-card">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <h6 class="m-b-25">Food Items</h6>
+                                                                <h3 class="f-w-700 text-c-yellow"><%=fiData%></h3>
+                                                                <p class="m-b-0">Total</p>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <i class="fas fa-hand-paper bg-c-yellow"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- sale revenue card end -->
+ <!-- testimonial and top selling start -->
+ <div class="col-md-12">
+    <div class="card table-card">
+        <div class="card-header">
+            <h5>Latest Activities</h5>
+            <div class="card-header-right">
+                <ul class="list-unstyled card-option">
+                    <li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+                    <li><i class="feather icon-maximize full-card"></i></li>
+                    <li><i class="feather icon-minus minimize-card"></i></li>
+                    <li><i class="feather icon-refresh-cw reload-card"></i></li>
+                    <li><i class="feather icon-trash close-card"></i></li>
+                    <li><i class="feather icon-chevron-left open-card-option"></i></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-block p-b-0">
+            <div class="table-responsive">
+                <table id="colum-rendr" class="table table-striped table-bordered nowrap">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                            <th>Updated by</th>
+                            <th>Date</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if ((Array.isArray(iUpdates) && iUpdates.length > 0)){ 
+                  
+                            %>
+                            <% iUpdates.forEach((o, index) => { %>
+                        <tr>
+                            <td><%= index +1 %></td>
+                            <td><%= o.item_name %></td>
+                            <td>
+                                <% if(o.update_type=='add'){ %>
+                                  <span class="pcoded-badge label label-info">Item Add</span>
+                                <%} else if(o.update_type=='claim'){ %>
+                                  <span class="pcoded-badge label label-primary">Claim</span>
+                                <%} else if(o.update_type=='purchase'){ %>
+                                  <span class="pcoded-badge label label-success">Purchase</span>
+                                <%}  %>
+                              </td>
+                            <td><%= o.change_quantity %></td>
+                            <td><%= o.updated_by %></td>
+                            <td><%= o.update_timestamp %></td>
+                           
+                           
+                        </tr>
+                        <% }) %>
+                        <% } %>
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>No</th>
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                            <th>Updated by</th>
+                            <th>Date</th>
+                            
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                            <!-- testimonial and top selling start -->
+                                            <div class="col-md-12">
+                                                <div class="card table-card">
+                                                    <div class="card-header">
+                                                        <h5>New Products</h5>
+                                                        <div class="card-header-right">
+                                                            <ul class="list-unstyled card-option">
+                                                                <li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                                <li><i class="feather icon-maximize full-card"></i></li>
+                                                                <li><i class="feather icon-minus minimize-card"></i></li>
+                                                                <li><i class="feather icon-refresh-cw reload-card"></i></li>
+                                                                <li><i class="feather icon-trash close-card"></i></li>
+                                                                <li><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block p-b-0">
+                                                        <div class="table-responsive">
+                                                            <table id="colum-rendr" class="table table-hover m-b-0">
+                                                                <thead>
+                                                                  <tr>
+                                                                      <th>No</th>
+                                                                    <th>Name</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Expiry</th>
+                                                                    <th>Price</th>
+                                                                    <th>Donated</th>
+                                                                    <!-- <th>Available</th> -->
+                                                                    <th>Available</th>
+                                                                    <th>Action</th>
+                                                                  </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                  <% if(newPdctData.length==0){ %>
+                                                                      <tr><td colspan="8">No items found</td></tr>
+                                                                  <% }else { %>
+                                                                  <% newPdctData.forEach((item, index) => { 
+                                                                      
+                                                                      %>
+                                                                      <tr>
+                                                                          <td> <%= index+1 %></td>
+                                                                          <td style="overflow: hidden;max-width: 25ch;white-space: nowrap;">
+                                                                              <a href="javascript:void(0)" title="<%= item.name %>">
+                                                                              <%= item.name %></a>
+                                                                          </td>
+                                                                          <td><%= item.quantity %>
+                                                                          </td>
+                                                                          <td><%= item.expiry %><br/>
+                                                                              <% if(item.days_difference==0) {%>
+                                                                                  <span class="" style="color:red">Item Expired</span>
+                                                                              <%} else if(item.days_difference<=7) {%>
+                                                                                  <span class="" style="color:orange"><%=item.days_difference %> more days</span>
+                                                                              <%} %>
+                                                                          </td>
+                                                                          <td><%= item.price %></td>
+                                                                          <td><%= item.isDonated  ? 'Yes' : 'No' %></td>
+                                                                          <td><%= item.isSale ? 'Yes' : 'No' %></td>
+                                                                          
+                                                                          <td>
+                                                                              <a href="<%= siteName %>/retailer/fooditems/edit/<%=item.id%>" class="btn btn-primary waves-effect waves-light "><i class="fa fa-edit"></i></a>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <% }); }%>
+                                                               </tbody>
+                                                                <tfoot>
+                                                                  <tr>
+                                                                      <th>No</th>
+                                                                      <th>Name</th>
+                                                                      <th>Quantity</th>
+                                                                      <th>Expiry</th>
+                                                                      <th>Price</th>
+                                                                      <th>Donated</th>
+                                                                      <th>Available</th>
+                                                                     
+                                                                      <th>Action</th>
+                                                                  </tr>
+                                                                </tfoot>
+                                                              </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- testimonial and top selling end -->
+
+
+
+                                            <!-- lettest acivity and statustic card start -->
+
+                                            <!-- lettest acivity and statustic card end -->
+
+                                        </div>
+                                        <!-- [ page content ] end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ style Customizer ] start -->
+                    <div id="styleSelector">
+                    </div>
+                    <!-- [ style Customizer ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/scripts') %>
+     <!-- Float Chart js -->
+     <script src="/retailer/files/assets/pages/chart/float/jquery.flot.js"></script>
+     <script src="/retailer/files/assets/pages/chart/float/jquery.flot.categories.js"></script>
+     <script src="/retailer/files/assets/pages/chart/float/curvedLines.js"></script>
+     <script src="/retailer/files/assets/pages/chart/float/jquery.flot.tooltip.min.js"></script>
+   
+     <!-- Custom js -->
+     <script src="/retailer/files/assets/js/pcoded.min.js"></script>
+     <script src="/retailer/files/assets/js/vertical/vertical-layout.min.js"></script>
+     <script type="text/javascript" src="/retailer/files/assets/pages/dashboard/custom-dashboard.min.js"></script>
+     <script type="text/javascript" src="/retailer/files/assets/js/script.min.js"></script>
+     
+     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+
+
+    <script>
+        function drawGraph(arr)
+        {
+            am5.ready(function() {
+    // Create root element
+    var root = am5.Root.new("chartdiv");
+
+    // Set themes
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    // Create chart
+    var chart = root.container.children.push(am5xy.XYChart.new(root, {
+        panX: true,
+        panY: true,
+        wheelX: "panX",
+        wheelY: "zoomX",
+        pinchZoomX: true,
+        paddingLeft: 0,
+        paddingRight: 1
+    }));
+
+    // Add cursor
+    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+    cursor.lineY.set("visible", false);
+
+    // Create axes
+    var xRenderer = am5xy.AxisRendererX.new(root, { 
+        minGridDistance: 30, 
+        minorGridEnabled: true
+    });
+
+    xRenderer.labels.template.setAll({
+        rotation: -90,
+        centerY: am5.p50,
+        centerX: am5.p100,
+        paddingRight: 15
+    });
+
+    xRenderer.grid.template.setAll({
+        location: 1
+    });
+
+    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+        maxDeviation: 0.3,
+        categoryField: "month",  // Use "month" field for the X-axis categories
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {})
+    }));
+
+    var yRenderer = am5xy.AxisRendererY.new(root, {
+        strokeOpacity: 0.1
+    });
+
+    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+        maxDeviation: 0.3,
+        renderer: yRenderer,
+        // Format Y-axis to show the $ sign
+        numberFormatter: am5.NumberFormatter.new(root, {
+            numberFormat: "$#.00"  // Format the Y-axis labels to show $ symbol
+        })
+    }));
+
+    // Create series
+    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+        name: "Series 1",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "amount",  // Use "amount" field for the Y-axis values
+        sequencedInterpolation: true,
+        categoryXField: "month",  // Use "month" as the category for X-axis
+        tooltip: am5.Tooltip.new(root, {
+            labelText: "{valueY}"  // Tooltip showing value with $ sign
+        })
+    }));
+
+    series.columns.template.setAll({
+        cornerRadiusTL: 5,
+        cornerRadiusTR: 5,
+        strokeOpacity: 0
+    });
+
+    series.columns.template.adapters.add("fill", function(fill, target) {
+        return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    series.columns.template.adapters.add("stroke", function(stroke, target) {
+        return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    // Use the chart data passed from the server
+    var data = [{"month":"December", "amount": 98.70}];  // Correct data format
+
+    // Set data
+    xAxis.data.setAll(data);
+    series.data.setAll(data);
+
+    // Make stuff animate on load
+    series.appear(1000);
+    chart.appear(1000, 100);
+
+}); // end am5.ready()
+
+        }
+
+    </script>
+    <script>
+        $(document).ready(function(){
+            getGraph();
+        })
+        function getGraph()
+        {
+            console.log("state");
+            $('#state').html("");
+            const formData = {
+                        
+                    };
+
+            $.ajax({
+                    url: '<%= siteName %>/retailer/dashboard-graph', 
+                    type: 'POST',
+                    data: formData,
+                    // dataType : 'json',
+                    success: function (response) {
+                        console.log(JSON.stringify(response.message));
+                        drawGraph(JSON.stringify(response.message));
+                        
+                        },
+                    error: function (error) {
+                        $('#state').html('<option state_id="" value="" >Choose</option>');
+                    }
+                });
+        }
+    </script>
+  </body>
+
+</html>

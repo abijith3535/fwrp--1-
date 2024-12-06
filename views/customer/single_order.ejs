@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+  </head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <%- include('../partials/customer_menu') %>
+        <intput type="hidden" id="refreshPage" value="true"/>
+      <section id="testimonial">
+        <div class="container">
+          <div class="row h-100">
+            <div class="container py-3">
+                <h3>Order : <%=orderData.order_unique%>
+                    <span class="">
+                        <% if(orderData.status == 'created'){
+                            %><span class="badge bg-primary p-2 ms-3">Created</span>
+                        <% }else if(orderData.status == 'processing'){%>
+                            <span class="badge bg-info p-2 ms-3">Processing</span>
+                            <%}else{ %>
+                                <span class="badge bg-success p-2 ms-3">Completed</span>
+                                <%} %>
+                        </span>
+                </h3>
+                
+                
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <p class="mb-0 fw-bold text-lg-left">
+                        Deliver to: 
+                        <% if(addressData){%>
+                            <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal"> <%=addressData.name%> </span><span><%=addressData.address1%> <%=addressData.address2%>, <%=addressData.city%>, <%=addressData.state%>, <%=addressData.postalcode%></span>
+                            <% } %>
+                        </p>
+                       </div>
+
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                  
+                    <hr />
+                    <table id="orderTable" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                             </tr>
+                        </thead>
+                        <tbody>
+                            <% if ((Array.isArray(itemData) && itemData.length > 0)){ 
+                      
+                                %>
+                                <% itemData.forEach((o, index) => { %>
+                            <tr>
+                                <td><%= index +1 %></td>
+                                <td>
+                                    <a href="<%= siteName %>/food-items/<%= o.slug %>">
+                                    <img
+                                        class="image" style="width : 50px"
+                                        src="<%= siteName %>/uploads/<%=o.image%>?auto=compress&cs=tinysrgb&dpr=1&w=100"
+                                        alt=""
+                                      />
+                                    <%= o.name %>
+                                    </a>
+                                </td>
+                                <td><%= o.discount_price %></td>
+                                <td><%= o.quantity %></td>
+                                <td>$<%= o.total_price %></td>
+                            </tr>
+                            <% }) %>
+                            <% } %>
+                            
+                        </tbody>
+                     </table>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-4">
+                        <div class="bg-light rounded-3 p-4 sticky-top">
+                          <h6 class="mb-4">Order Summary</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div>Subtotal</div>
+                            <div><strong>$ <%=orderData.total_price%></strong></div>
+                          </div>
+                          <hr />
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div>Delivery Charge</div>
+                            <div><strong>$ <%=orderData.delivery_charge%></strong></div>
+                          </div>
+                          <hr />
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div>Total</div>
+                            <div><strong>$ <%=orderData.grand_total%></strong></div>
+                          </div>
+                         
+                        </div>
+                      </div>
+                
+                </div>
+              </div>
+          </div>
+         
+        </div>
+      </section>
+
+      <%- include('../partials/customer_footer') %>
+     
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <%- include('../partials/customer_scripts') %>
+    <script>
+        $(document).ready(function() {
+            
+            
+         });
+    </script>
+  
+
+  </body>
+</html>

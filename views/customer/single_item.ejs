@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css" />
+  
+</head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <%- include('../partials/customer_menu') %>
+        <intput type="hidden" id="refreshPage" value="true"/>
+      <section id="testimonial">
+        <div class="container">
+          <div class="row h-100">
+            <div class="container py-3">
+                
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                  
+                    <div class="row">
+                        <!-- Product Images -->
+                        <div class="col-md-6 mb-4">
+                            <img src="<%= siteName %>/uploads/<%=foodItemData.image%>" alt="Product" class="img-fluid rounded mb-3 product-image" style="height: auto;">
+                            
+                        </div>
+                
+                        <!-- Product Details -->
+                        <div class="col-md-6">
+                            <h2 class="mb-3"><%=foodItemData.name%></h2>
+                            <div class="d-flex align-items-center">
+                              <% if(foodItemData.descriptionisStockAvailable){ %>
+                              <span class="fs-1 text-danger">Out of Stock</span>
+                              <%}else{ %>
+                                <span class="fs-1 text-success">In Stock</span>
+                                <%} %>
+                                
+                            </div>
+                            
+                            <p class="mb-4">
+                              <%=foodItemData.description%>
+                            </p>
+                            
+                            <div class="mb-4">
+                                <label for="quantity" class="form-label">Quantity:</label>
+                                <input type="hidden" id="item_id" value="<%=foodItemData.item_id%>">
+                                <input    type="number" id="quantity" class="form-control quantity-input" min="1" style="width: 120px;">
+                             
+                            </div>
+                            <%if(foodItemData.isExpired){ %>
+                            <button class="btn btn-primary btn-lg mb-3 me-2 cart-btn" disabled>
+                                    <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
+                            <% }else if(!foodItemData.isStockAvailable){ %>
+                              <button class="btn btn-primary btn-lg mb-3 me-2 cart-btn" disabled>
+                                      <i class="bi bi-cart-plus"></i> Add to Cart
+                              </button>
+                              <%} else{ %>
+                                <%if(user.usertype == 'consumer'){ %>
+                                <button item="<%=foodItemData.item_id%>" class="btn btn-primary btn-lg mb-3 me-2 cart-btn">
+                                  <i class="bi bi-cart-plus"></i> Add to Cart
+                                </button>
+                                <% } else{ %>
+                                  <button item="<%=foodItemData.item_id%>" class="btn btn-success btn-lg mb-3 me-2 claim-btn">
+                                    <i class="bi bi-cart-plus"></i> Claim
+                                  </button>
+                                  <%} %>
+                              <%}%>
+                          
+                        </div>
+                    </div>
+                   
+                  </div>
+                  
+                </div>
+              </div>
+          </div>
+         
+        </div>
+      </section>
+
+      <%- include('../partials/customer_footer') %>
+     
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <%- include('../partials/customer_scripts') %>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+  
+    <script>
+      $(document).ready(function() {
+         
+          $('.cart-btn').click(function(){
+            
+            manageCart($(this).attr('item'), $('#quantity').val(), 'add');
+          })
+          $('.claim-btn').click(function(){
+              
+              manageClaim($(this).attr('item'), $('#quantity').val(), 'add',null);
+              });
+       });
+     
+  </script>
+
+  </body>
+</html>

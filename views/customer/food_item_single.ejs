@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+  </head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <%- include('../partials/customer_menu') %>
+        <section class="py-0">
+            <div class="bg-holder" style="background-image:url(/customer/assets/img/gallery/cta-two-bg.png);background-position:center;background-size:cover;"></div>
+            <!--/.bg-holder-->
+            <div class="container">
+              <div class="row flex-center">
+                <div class="col-xxl-9 py-7 text-center">
+                  <h1 class="fw-bold mb-4 text-white fs-6">Are you ready to order <br>with the best deals? </h1>
+                  
+                </div>
+              </div>
+            </div>
+          </section>
+  
+
+
+      <section id="testimonial">
+        <div class="container">
+          <div class="row h-100">
+            <div class="col-lg-7 mx-auto text-center mb-6">
+                <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Food Items</h5>
+            </div>
+          </div>
+          <div class="row gx-2">
+           
+            <% if(food_items.length>0){  %>
+                <% food_items.forEach((item, index) => { %>
+                    <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
+                        <div class="card card-span h-100 rounded-3"><img class="img-fluid rounded-3 h-100" src="<%= siteName %>/uploads/<%=item.image%>" alt="...">
+                            <div class="card-img-overlay ps-0">
+                                <% if(item.discount_percentage>0){ %>
+                                <span class="badge bg-danger p-2 ms-3">
+                                    <i class="fas fa-tag me-2 fs-0"></i>
+                                    <span class="fs-0"><%=item.discount_percentage%>% off</span>
+                                </span>
+                                <% } %>
+                                <span class="badge bg-primary ms-2 me-1 p-2">
+                                    <i class="fas fa-clock me-1 fs-0"></i>
+                                    <span class="fs-0">Fast</span>
+                                </span>
+                            </div>
+                        
+                            <div class="card-body ps-0">
+                            <h5 class="fw-bold text-1000 text-truncate mb-1"><%=item.name%></h5>
+                            <div><span class="text-warning me-2"><svg class="svg-inline--fa fa-map-marker-alt fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marker-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg><!-- <i class="fas fa-map-marker-alt"></i> Font Awesome fontawesome.com --></span><span class="text-primary"><%=item.retailer%></span></div><span class="text-1000 fw-bold">$<%=item.price%></span>
+                          </div>
+                        </div>
+                        <div class="d-grid gap-2"><a item="<%=item.item_id%>" class="btn btn-lg btn-danger cart-btn item-<%=item.item_id%>" href="javascript:void(0)" role="button">Add to cart</a></div>
+                      </div>
+            
+            <% }); %>
+           <%}%>
+           </div>
+        </div>
+      </section>
+      <%- include('../partials/customer_footer') %>
+      
+     
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <%- include('../partials/customer_scripts') %>
+    <script>
+        $(document).ready(function() {
+            $('.cart-btn').click(function(){
+              
+            manageCart($(this).attr('item'), 1, 'add');
+            })
+         });
+    </script>
+  
+
+  </body>
+</html>

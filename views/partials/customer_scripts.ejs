@@ -1,0 +1,474 @@
+<div class="modal" tabindex="-1" role="dialog" id="addressModal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Choose Address</h5>
+         
+        </div>
+        <div class="modal-body" >
+          <ul class="list-group" id="userAddressBody">
+            
+          
+          </ul>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary add-address">Add new address</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" tabindex="-1" role="dialog" id="newAddressModal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New Address</h5>
+         
+        </div>
+        <div class="modal-body" >
+          <div class="row">
+            <form id="newAddForm"> 
+              <!-- Name -->
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" >
+              </div>
+              <div class="row mb-3">
+                <!-- Address 1 -->
+                <div class="col-md-6">
+                  <label for="address1" class="form-label">Address Line 1</label>
+                  <input type="text" class="form-control" id="address1" name="address1" placeholder="Enter your address" >
+                </div>
+                <!-- Address 2 -->
+                <div class="col-md-6">
+                  <label for="address2" class="form-label">Address Line 2</label>
+                  <input type="text" class="form-control" id="address2" name="address2" placeholder="Enter additional address details">
+                </div>
+              </div>
+              <div class="row mb-3">
+                  <!-- Country -->
+                  <div class="col-md-4">
+                    <label for="country" class="form-label">Country</label>
+                    <select class="form-select" id="country" name="country" aria-readonly="true">
+                      <option value="" selected disabled>Choose</option>
+                       <option value="Canada" selected >Canada</option>
+                     <!-- <option value="United States">United States</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="Australia">Australia</option> -->
+                    </select>
+                  </div>
+                  <!-- State -->
+                  <div class="col-md-4">
+                    <label for="state" class="form-label">Province</label>
+                    <select class="form-select" id="state" name="state">
+                      <option value="" >Choose</option>
+                    
+                      <!-- Add more countries as needed -->
+                    </select>
+                  </div>
+                  <!-- City -->
+                  <div class="col-md-4">
+                    <label for="city" class="form-label">City</label>
+                    <select class="form-select" id="city" name="city">
+                      <option value="" selected disabled>Choose</option>
+                    
+                      <!-- Add more countries as needed -->
+                    </select>
+                  </div>
+              </div>
+              <!-- Postal Code -->
+              <div class="mb-3">
+                <label for="postalcode" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="Enter your postal code" >
+              </div>
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary">Save address</button>
+            </form>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+        
+          
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="/customer/vendors/%40popperjs/popper.min.js"></script>
+<script src="/customer/vendors/bootstrap/bootstrap.min.js"></script>
+<script src="/customer/vendors/is/is.min.js"></script>
+<!-- <script src="../../../polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script> -->
+<script src="/customer/vendors/fontawesome/all.min.js"></script>
+<script src="/customer/assets/js/theme.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap" rel="stylesheet">
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+<script>
+  $(document ).ready(function() {
+    $('.subscribe-btn').click(function(){
+      var subscribe = $('#subscribe').val();
+      var flag = true;
+      if(subscribe == "")
+      {
+        flag = false;
+      }
+      else
+      {
+        const mobilePattern = /^(?:\+1[- ]?)?(?:\(?[2-9][0-8][0-9]\)?[- ]?)?[2-9][0-9]{2}[- ]?[0-9]{4}$/;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if(!mobilePattern.test(subscribe))
+        {
+          flag = false;
+        }
+        else if(!emailPattern.test(email))
+        {
+          flag = false;
+        }
+      }
+      if(flag)
+      {
+            const jsonData = {
+                subscribe: subscribe
+                };
+                console.log(jsonData);
+                $.ajax({
+                    url: '<%= siteName %>/consumer/subscribe', // Endpoint in your Express app
+                    type: 'POST',
+                    data: JSON.stringify(jsonData),  
+                    contentType: 'application/json',  
+                    success: function (response) {
+                        console.log(response);
+                       if(response.message =='success')
+                       alertify.success('Subscribed successfully');
+                       
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alertify.error(error.message);
+                        
+                    }
+                });
+      }
+      else alertify.error('Please enter a valid email or mobile number');
+    })
+
+  $('.userdropdown ul>li').click(function(){
+    $('.userdropdown ul>li').each(function(){
+      $(this).removeClass('drop-selected');
+    });
+    $(this).toggleClass('drop-selected');
+    $('.userdropdown>span').text($(this).attr("val"))
+  });
+});
+</script>
+<script>
+    $(document).on("change",".custom-control-input:checkbox",function() {
+       console.log('clicked');
+       $('.custom-control-input').prop('checked', false);
+       $(this).prop('checked', true);
+       setUserAddress($(this).val());
+     });
+   $(document).ready(function () {
+
+    //checking for selected address
+    var address = $('#userAddress').val();
+     if(!address)
+     {
+       getUserAddress();
+          
+     }
+
+    $('#newAddForm').submit(function(e){
+      e.preventDefault(); // Prevent the default form submission
+                const formData = $(this).serializeArray();
+                $.ajax({
+                    url: '<%= siteName %>/address/submit_newaddress', // Endpoint in your Express app
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                       alertify.success('Address added sucessfully');
+                       $("#newAddForm").trigger("reset");
+                       getUserAddress();
+                       $('#newAddressModal').modal('hide');
+                    },
+                    error: function (error) {
+                        
+                        var errors_ = JSON.parse(error.responseText);
+                        console.log(errors_);
+                        $.each(errors_.errors, function(index, e) {
+                            alertify.error(e);
+                        });
+                    }
+                });
+    })
+    $('#state').change(function(){
+      const selectedOption = $(this).find(':selected');
+      const state_id = selectedOption.attr('state_id');
+      console.log(state_id);
+      if(state_id!='')
+      {
+        getCities(state_id);
+      }
+      else
+      {
+        $('#city').html('<option value="">Choose your city</option>');
+      }
+     
+    
+    })
+    
+    $('.add-address').click(function(){
+      getState();
+      $('#newAddressModal').modal('show');
+    })
+    $('.localtionModal').click(function(){
+     getUserAddress();
+    })
+     
+      
+   });
+   function getUserAddress()
+   {
+     $('#userAddressBody').html("");
+     const formData = {
+                 user_id: $('#userId').val(),
+            };
+
+       $.ajax({
+               url: '<%= siteName %>/address/getaddresses', 
+               type: 'POST',
+               data: formData,
+              // dataType : 'json',
+               success: function (response) {
+                 console.log(response.addresses);
+                  if(response.addresses)
+                  {
+                    var addressSelected = $('#userAddress').val();
+                    $.each(response.addresses, function(e,a) {
+                     var chk = addressSelected==a.id ? "checked" : "";
+             var add = '<li class="list-group-item">'+
+                           '<a>'+
+                             '<div class="custom-control custom-checkbox">'+
+                               '<input type="checkbox" class="custom-control-input" '+ chk+' id="userAdd'+a.id+'" value="'+a.id+'">'+
+                               '<label class="custom-control-label" for="userAdd'+a.id+'">'+
+                                 '<p class="mb-0 fw-bold text-lg-center">'+
+                                   '<i class="fas fa-map-marker-alt text-warning mx-2"></i>'+
+                                   '<span >'+a.name+'</span><span class="fw-normal">, '+a.address1+' '+a.address2+','+a.city+','+a.state+', '+a.postalcode+'</span>'+
+                                 '</p>'+
+                               '</label>'+
+                             '</div>'+
+                           '</a>'+
+                         '</li>';
+                        $('#userAddressBody').append(add);
+                        //$('#addressModal').modal('show');
+                        const modalElement = document.getElementById('addressModal');
+                        const addressModal = new bootstrap.Modal(modalElement, {
+                          backdrop: 'static',
+                          keyboard: false
+                        });
+                        addressModal.show();
+
+                     });
+                  }
+                  else {
+                    const modalElement = document.getElementById('addressModal');
+                    const addressModal = new bootstrap.Modal(modalElement, {
+                      backdrop: 'static',
+                      keyboard: false
+                    });
+                    addressModal.show();
+                  }
+                 
+               },
+               error: function (error) {
+                   
+                   var errors_ = JSON.parse(error.responseText);
+                  if(errors_.error)
+                  {
+                    alertify.error(errors_.error);
+                  }
+               }
+           });
+   }
+   function setUserAddress(address_id)
+   {
+     const formData = {
+       address_id: address_id
+     };
+     $.ajax({
+               url: '<%= siteName %>/address/setaddresses', 
+               type: 'POST',
+               data: formData,
+              // dataType : 'json',
+               success: function (response) {
+                 console.log(response);
+                  if(response.success)
+                  {
+                    // $('#addressModal').modal('hide');
+                    
+                    var dd = '<i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal">'+response.address.postalcode+'</span>';
+                   $('.localtionModal').html(dd);
+                   $('#inputDelivery').val(response.address.postalcode);
+                   const modalElement = document.getElementById('addressModal');
+                   modalElement.setAttribute('data-bs-backdrop', 'true');  // Enable backdrop
+                   modalElement.setAttribute('data-bs-keyboard', 'true');  // Enable keyboard (Esc key)
+                  // Get the existing modal instance (if it exists)
+                  const addressModal = bootstrap.Modal.getInstance(modalElement);
+                  addressModal.hide();
+                  location.reload();
+                  
+                 }
+                 
+               },
+               error: function (error) {
+                   
+                   var errors_ = JSON.parse(error.responseText);
+                  if(errors_.error)
+                  {
+                    alertify.error(errors_.error);
+                  }
+               }
+           });
+   }
+   function manageCart(item_id, quantity, action)
+   {
+    const formData = {
+                 item_id: item_id,
+                 quantity : quantity,
+                 action:action
+            };
+    $.ajax({
+               url: '<%= siteName %>/consumer/addtocart', 
+               type: 'POST',
+               data: formData,
+              // dataType : 'json',
+               success: function (response) {
+                 console.log(response);
+                  if(response.message == "success")
+                  {
+                    if(response.action == 'add')
+                    {
+                      alertify.success('Item added to your cart');
+                    }
+                    else{
+                      alertify.success('Your cart is modified');
+                    }
+                    setTimeout(function() {
+                      location.reload();
+                    }, 700);
+                  }
+                 
+               },
+               error: function (error) {
+                   
+                   var errors_ = JSON.parse(error.responseText);
+                  if(errors_.error)
+                  {
+                    alertify.error(errors_.error);
+                  }
+               }
+           });
+   }
+   function getState()
+   {
+    console.log("state");
+     $('#state').html("");
+     const formData = {
+                 
+            };
+
+       $.ajax({
+               url: '<%= siteName %>/getState', 
+               type: 'POST',
+               data: formData,
+              // dataType : 'json',
+               success: function (response) {
+                 console.log(response);
+                  if(response.states)
+                  {
+                    $('#state').html('<option  state_id="" value="" >Choose</option>');
+                    $.each(response.states, function(e,a) {
+                     
+                        var add = '<option state_id="'+a.state_id+'" value="'+a.name+'">'+a.name+'</option>';
+                        $('#state').append(add);
+                        
+
+                     });
+                  }
+                },
+               error: function (error) {
+                $('#state').html('<option state_id="" value="" >Choose</option>');
+               }
+           });
+   }
+   function getCities(v)
+   {
+    console.log("state");
+     $('#city').html("");
+     const formData = {
+               state_id : v  
+            };
+
+       $.ajax({
+               url: '<%= siteName %>/getCity', 
+               type: 'POST',
+               data: formData,
+              // dataType : 'json',
+               success: function (response) {
+                 console.log(response);
+                  if(response.cities)
+                  {
+                    $('#city').html('<option city_id="" value="" >Choose</option>');
+                    $.each(response.cities, function(e,a) {
+                     
+                        var add = '<option city_id="'+a.city_id+'" value="'+a.name+'" >'+a.name+'</option>';
+                        $('#city').append(add);
+                      });
+                  }
+                },
+               error: function (error) {
+                $('#city').html('<option city_id="" value_id="" >Choose</option>');
+               }
+           });
+   }
+   function manageClaim(item_id, quantity, action, claim_id)
+         {
+           const formData = {
+                 item_id: item_id,
+                 quantity : quantity,
+                 action:action,
+                 claim_id : claim_id
+            };
+          $.ajax({
+               url: '<%= siteName %>/organisation/addtoclaim', 
+               type: 'POST',
+               data: formData,
+              // dataType : 'json',
+               success: function (response) {
+                 console.log(response);
+                  if(response.message == "success")
+                  {
+                    if(action == 'add')
+                    {
+                      alertify.success('Item claimed successfully');
+                      setTimeout(function() {
+                        window.location = response.url
+                      }, 700);
+                    }
+                    else  alertify.success('You have modified your claim successfully');
+                    
+                  }
+                 
+               },
+               error: function (error) {
+                   
+                   var errors_ = JSON.parse(error.responseText);
+                  if(errors_.error)
+                  {
+                    alertify.error(errors_.error);
+                  }
+               }
+           });
+         }
+</script>

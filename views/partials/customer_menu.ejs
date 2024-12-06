@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-navbar-on-scroll="data-navbar-on-scroll">
+    <div class="container"><a class="navbar-brand d-inline-flex" href="<%= siteName %>/home"><img class="d-inline-block" src="<%= siteName %>/customer/assets/img/gallery/logo.svg" alt="logo" /><span class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span></a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
+      <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
+        <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+          <input type="hidden" id="userId" value="<%=user && user.user_id ? user.user_id : null %>">
+          <input type="hidden" id="userAddress" value="<%=user && user.address ? user.address.id : null %>">
+          <p class="mb-0 fw-bold text-lg-center" id="useAddressDiv">
+            Deliver to: 
+            <a href="#"  class="localtionModal" >
+            <% if(!user.address){ %>
+              
+                <i class="fas fa-map-marker-alt text-warning mx-2" style="color:red"></i>Choose your location
+             
+              <% }else{%>
+                <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal"><%= user.address.postalcode %></span>
+                <% } %>
+              </a>
+           </p>
+        </div>
+        <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
+          <% if(!user){ %>
+            <a href="<%= siteName %>/login" class="btn btn-white shadow-warning text-warning" > 
+              <i class="fas fa-user me-2"></i>Login
+            </a>
+           
+            <% }else{%>
+              <!-- <a  href= "<%= siteName %>/logout" class="btn btn-white shadow-warning text-warning" > 
+                <i class="fas fa-power-off me-2"></i><%=user.name %>
+              </a> -->
+              
+             
+        <% } %>
+        </form>
+        <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+          <% if(user.usertype == "consumer" && userCartCount>0){ %>
+            <a  href= "<%= siteName %>/consumer/cart"><span class="badge bg-danger p-2 ms-3">
+            <i class="fas fa-shopping-cart me-2 fs-0"></i>
+            <span class="fs-0" id="userCartCount"><%= userCartCount %></span>
+          </span>
+          </a>
+          <% } %>
+          <div class="userdropdown text-warning" id="drop-down">
+            <span class="mb-0 fw-bold text-lg-center"><%=user.name %> <i class="fas fa-caret-down me-2"></i></span>
+            <label>
+              <input type="checkbox">
+              <ul class="text-black">
+                <li val="Personal"><a  href= "<%= siteName %>/profile"><i class="fas fa-user me-2"></i>Profile</a></li>
+                <% if(user.usertype == "consumer" ){ %>
+                <li val="Professional"><a  href= "<%= siteName %>/consumer/orders"><i class="fas fa-shopping-cart me-2"></i>Orders</a></li>
+                <% }else{ %>
+                <li val="Professional"><a  href= "<%= siteName %>/organisation/claims"><i class="fas fa-shopping-cart me-2"></i>Claims</a></li>
+                <% } %>
+                <li val="Financial"><a  href= "<%= siteName %>/logout"><i class="fas fa-power-off me-2"></i>Logout</a></li>
+              </ul>
+            </label>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </nav>

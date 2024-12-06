@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css" />
+  
+</head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <%- include('../partials/customer_menu') %>
+        <intput type="hidden" id="refreshPage" value="true"/>
+      <section id="testimonial">
+        <div class="container">
+          <div class="row h-100">
+            <div class="container py-3">
+                <h3>Claim List</h3>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                  
+                    <table id="orderTable" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Claim ID</th>
+                                <th>Item</th>
+                                <th>Date</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if ((Array.isArray(claims) && claims.length > 0)){ 
+                      
+                                %>
+                                <% claims.forEach((o, index) => { %>
+                            <tr>
+                                <td><%= index +1 %></td>
+                                <td><%= o.claim_id %></td>
+                                <td><%= o.name %></td>
+                                <td><%= o.claim_date %></td>
+                                <td><%= o.quantity %></td>
+                                <td>
+                                  <% if(o.status=='pending'){ %>
+                                    <span class="text-waring">Pending</span>
+                                  <%} else if(o.status=='approved'){ %>
+                                    <span class="text-waring">Approved</span>
+                                  <%} else if(o.status=='claimed'){ %>
+                                    <span class="text-waring">Claimed</span>
+                                  <%} else { %>
+                                    <span class="text-waring">Rejected</span>
+                                     <% } %>
+                                </td>
+                                
+                                <td> <a  href= "<%= siteName %>/organisation/claim/<%= o.claim_id %>">
+                                    <i class="fas fa-eye me-2 fs-0"></i>
+                                  </a>
+                                </td>
+                               
+                            </tr>
+                            <% }) %>
+                            <% } %>
+                            
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>Claim ID</th>
+                                <th>Item</th>
+                                <th>Date</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    
+                   
+                  </div>
+                  
+                </div>
+              </div>
+          </div>
+         
+        </div>
+      </section>
+
+      
+     
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <%- include('../partials/customer_scripts') %>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+  
+    <script>
+        $(document).ready(function() {
+           $('#orderTable').DataTable();
+           
+            
+            
+         });
+    </script>
+  
+
+  </body>
+</html>

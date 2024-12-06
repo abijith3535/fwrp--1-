@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <%- include('../partials/head') %>
+   <!-- Data Table Css -->
+   <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+   <link rel="stylesheet" type="text/css" href="/retailer/files/assets/pages/data-table/css/buttons.dataTables.min.css">
+   <link rel="stylesheet" type="text/css" href="/retailer/files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+</head>
+
+<body>
+     <!-- [ Pre-loader ] start -->
+     
+    <!-- [ Pre-loader ] end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            
+            <%- include('../partials/topnav') %>
+            
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <!-- [ navigation menu ] start -->
+                    <%- include('../partials/sidebar') %>
+                    <!-- [ navigation menu ] end -->
+                    <div class="pcoded-content">
+                        <div class="page-header card">
+                            <div class="row align-items-end">
+                                <div class="col-lg-8">
+                                    <div class="page-header-title">
+                                        <i class="feather icon-watch bg-c-blue"></i>
+                                        <div class="d-inline">
+                                            <h5>Purchases</h5>
+                                            <span>Purchase list</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <div class="page-body">
+                                        <!-- [ page content ] start -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Purchases</h5>
+                                                        <div class="card-header-right">
+                                                            <ul class="list-unstyled card-option">
+                                                                <li class="first-opt"><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                                <li><i class="feather icon-maximize full-card"></i></li>
+                                                                <li><i class="feather icon-minus minimize-card"></i></li>
+                                                                <li><i class="feather icon-refresh-cw reload-card"></i></li>
+                                                                <li><i class="feather icon-trash close-card"></i></li>                                                                 <li><i class="feather icon-chevron-left open-card-option"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block">
+                                                        <div class="col-sm-12 col-md-10 col-md-offset-1">
+                                                            <p class="mb-0 fw-bold text-lg-left">
+                                                                Deliver to: 
+                                                                <% if(addressData){%>
+                                                                    <i class="fa fa-map-marker text-warning mx-2"></i><span class="fw-normal"> <%=addressData.name%> </span><span><%=addressData.address1%> <%=addressData.address2%>, <%=addressData.city%>, <%=addressData.state%>, <%=addressData.postalcode%></span>
+                                                                    <% } %>
+                                                                </p>
+                                                            <table class="table table-hover">
+                                                               <thead>
+                                                                  <tr>
+                                                                     <th>Product</th>
+                                                                  
+                                                                     <th>Quantity</th>
+                                                                     <th class="text-center">Price</th>
+                                                                     <th class="text-center">Total</th>
+                                                                     
+                                                                  </tr>
+                                                               </thead>
+                                                               <tbody>
+                                                                <% if ((Array.isArray(itemData) && itemData.length > 0)){ 
+                      
+                                                                    %>
+                                                                    <% itemData.forEach((o, index) => { %>
+                                                                  <tr>
+                                                                     <td class="col-sm-8 col-md-6"  style="overflow-wrap: break-word; word-break: break-word;">
+                                                                        <div class="media">
+                                                                           <a class="thumbnail pull-left" href="#"> <img class="media-object" src="<%= siteName %>/uploads/<%=o.image%>?auto=compress&cs=tinysrgb&dpr=1&w=100" style="width: 72px; height: 72px;"> </a>
+                                                                           <div class="media-body">
+                                                                             
+                                                                              <h5 class="media-heading"> by <a href="#"><%= o.name %></a></h5>
+                                                                              <span>Status: </span>
+                                                                              <% if(parseInt(o.days_difference) <=7){ %>
+                                                                                <span class="text-warning"><strong><%= o.days_difference %> days to expire</strong></span> 
+                                                                                <% }else if(o.stock > o.quantity){ %>
+                                                                              <span class="text-warning"><strong>In Stock</strong></span>
+                                                                              <%} %>
+                                                                           </div>
+                                                                        </div>
+                                                                     </td>
+                                                                    
+                                                                     <td class="col-sm-1 col-md-1" style="text-align: center">
+                                                                        <input type="text" readonly   class="form-control" id="qty" value="<%= o.quantity %>">
+                                                                     </td>
+                                                                     <td class="col-sm-1 col-md-1 text-center"><strong>$<%= o.discount_price %></strong></td>
+                                                                     <td class="col-sm-1 col-md-1 text-center"><strong>$<%= o.total_price %></strong></td>
+                                                                    
+                                                                  </tr>
+                                                                  <% }) %>
+                                                                  <% } %>
+                                                                
+                                                                  <tr>
+                                                                     <td>   </td>
+                                                                    
+                                                                   
+                                                                     <td>
+                                                                        <h5>Subtotal</h5>
+                                                                     </td>
+                                                                     
+                                                                     <td class="text-right">
+                                                                        <input type="hidden" id="order_id" value="<%=orderData.order_id%>">
+                                                                        <h5><strong>$<%=orderData.total_price%></strong></h5>
+                                                                     </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                     <td>   </td>
+                                                                    
+                                                                     
+                                                                     <td>
+                                                                        <h5>Estimated shipping</h5>
+                                                                     </td>
+                                                                     <td class="text-right">
+                                                                        <h5><strong>$<%=orderData.delivery_charge%></strong></h5>
+                                                                     </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                     <td>   </td>
+                                                                    
+                                                                    
+                                                                     <td>
+                                                                        <h3>Total</h3>
+                                                                     </td>
+                                                                     <td class="text-right">
+                                                                        <h3><strong>$<%=orderData.grand_total%></strong></h3>
+                                                                     </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                     <td>   </td>
+                                                                    
+                                                                    
+                                                                     <td>
+                                                                        <% if(orderData.status == 'created' || orderData.status=='processing'){ %>
+                                                                       <select class="form-control" id="status">
+                                                                        <% orderStatuses.forEach((s, index) => { %>
+                                                                        <%if(orderData.status == s){%>
+                                                                                <option value="<%=s%>"  selected><%=s%></option>
+                                                                        <%}else{%>
+                                                                            <option value="<%=s%>"><%=s%></option>
+                                                                       <% }%>
+                                                                        <% }) %>
+                                                                       </select>
+                                                                       <%} else{%>
+                                                                        <%if(orderData.status=='completed'){ %>
+                                                                            <span class="pcoded-badge label label-success">Completed</span>
+                                                                        <%} else { %>
+                                                                            <span class="pcoded-badge label label-danger">Cancelled</span>
+                                                                        <%} %>
+                                                                        <%} %>
+                                                                     </td>
+                                                                     <td>
+                                                                        <% if(orderData.status == 'created' || orderData.status=='processing'){ %>
+                                                                        <button type="button" class="btn btn-success save-status">
+                                                                        Save Status <span class="fa fa-play"></span>
+                                                                        </button>
+                                                                        <%} %>
+                                                                     </td>
+                                                                  </tr>
+                                                               </tbody>
+                                                            </table>
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- [ page content ] end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ style Customizer ] start -->
+                    <div id="styleSelector">
+                    </div>
+                    <!-- [ style Customizer ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/scripts') %>
+     <!-- data-table js -->
+<script src="/retailer/files/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/jszip.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/pdfmake.min.js"></script>
+<script src="/retailer/files/assets/pages/data-table/js/vfs_fonts.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/retailer/files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+     <!-- Custom js -->
+     <script src="/retailer/files/assets/js/pcoded.min.js"></script>
+     <script src="/retailer/files/assets/js/vertical/vertical-layout.min.js"></script>
+
+     <script type="text/javascript" src="/retailer/files/assets/js/script.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+     <script>
+        $(document).ready(function () {
+            $('.save-status').on('click', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                
+                const jsonData = {
+                    order_id: $('#order_id').val(),
+                    status: $('#status').val()
+                };
+                $.ajax({
+                    url: '<%= siteName %>/retailer/purchases/change_status', // Endpoint in your Express app
+                    type: 'POST',
+                    data: JSON.stringify(jsonData),  
+                    contentType: 'application/json',  
+                    success: function (response) {
+                        console.log(response);
+                       if(response.message =='success')
+                       alertify.success('Status Updated');
+					   setTimeout(function(){ location.reload();}, 700);
+                       
+                    },
+                    error: function (error) {
+                        
+                        alertify.error(eerror.message);
+                        
+                    }
+                });
+            });
+        });
+  
+    </script>
+     
+</body>
+
+</html>

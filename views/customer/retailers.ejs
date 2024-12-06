@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <%- include('../partials/customer_head') %>
+  </head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <%- include('../partials/customer_menu') %>
+        <section class="py-0">
+            <div class="bg-holder" style="background-image:url(/customer/assets/img/gallery/cta-two-bg.png);background-position:center;background-size:cover;"></div>
+            <!--/.bg-holder-->
+            <div class="container">
+              <div class="row flex-center">
+                <div class="col-xxl-9 py-7 text-center">
+                  <h1 class="fw-bold mb-4 text-white fs-6">Are you ready to order <br>with the best deals? </h1>
+                  
+                </div>
+              </div>
+            </div>
+          </section>
+  
+
+
+      <section id="testimonial">
+        <div class="container">
+          <div class="row h-100">
+            <div class="col-lg-7 mx-auto text-center mb-6">
+                <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Retailers</h5>
+            </div>
+          </div>
+          <div class="row gx-2">
+           
+            
+                <% if(retailersData.length>0){  %>
+                  <% retailersData.forEach((r, index) => { %>
+                <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
+                    
+                  <div class="card card-span h-100 text-white rounded-3">
+                    <a href="<%= siteName %>/retailers/fooditems/<%=r.user_id%>">
+                    <img class="img-fluid rounded-3 h-100" src="<%= siteName %>/uploads/<%= r.logo %>" alt="..." />
+                    <div class="card-body ps-0">
+                      <div class="d-flex align-items-center mb-3">
+                        <div class="flex-1 ms-3">
+                          <h5 class="mb-0 fw-bold text-1000"><%=r.name%></h5>
+                        </div>
+                      </div>
+                      <span class="badge bg-soft-success p-2">
+                        <% if(r.isServiceable){  %>
+                            <span class="fw-bold fs-1 text-success">Open Now</span>
+                        <%}else{%> 
+                            <span class="fw-bold fs-1 text-danger">Not serviceable</span>
+                        <%}%>  
+                    </span>
+                    </div>
+                    </a>
+                  </div>
+                </div>
+               
+                <% }); %>
+               <%}%>
+              
+           </div>
+        </div>
+      </section>
+
+      
+      <%- include('../partials/customer_footer') %>
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <%- include('../partials/customer_scripts') %>
+    <script>
+        $(document).ready(function() {
+            $('.cart-btn').click(function(){
+              
+            manageCart($(this).attr('item'), 1, 'add');
+            })
+         });
+    </script>
+  
+
+  </body>
+</html>
